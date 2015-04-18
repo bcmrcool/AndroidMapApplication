@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,9 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.widget.ImageButton;
+import android.view.View.OnClickListener;
+
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -32,12 +36,22 @@ public class MainActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    //private ActionBarDrawerToggle mDrawerToggle;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
     GoogleMap googleMap;
+
+    //Added for custom buttons
+    ImageButton meetUpButton;
+    ImageButton menuButton;
+    ImageButton addButton;
+
+    ImageButton searchBarButton;
+    ImageButton addContactButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +69,14 @@ public class MainActivity extends ActionBarActivity
 
         createMapView();
         addMarker();
+
+        //Added for custom buttons
+        addListenerOnMeetUpButton();
+        addListenerOnMenuButton();
+        addListenerOnAddButton();
+
+        addListenerOnSearchBarButton();
+        addListenerOnAddContactButton();
     }
 
     @Override
@@ -131,14 +153,21 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
+            //Toast.makeText(MainActivity.this, "1 Before! MENU clicked!", Toast.LENGTH_SHORT).show();
+
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
+            Toast.makeText(MainActivity.this, "2 after return MENU clicked!    menu: [" + menu + "]", Toast.LENGTH_SHORT).show();
             return true;
         }
+        else
+            Toast.makeText(MainActivity.this, "1 Before! MENU clicked!", Toast.LENGTH_SHORT).show();
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -156,6 +185,105 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    //Added for custom button
+    public void addListenerOnMeetUpButton() {
+
+        meetUpButton = (ImageButton) findViewById(R.id.meetUpButton);
+
+        meetUpButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Toast.makeText(MainActivity.this, "MeetUpButton clicked!", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+    }
+
+    public void addListenerOnMenuButton() {
+
+        menuButton = (ImageButton) findViewById(R.id.menuButton);
+
+        menuButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Toast.makeText(MainActivity.this,
+                        "MenuButton clicked!", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+    }
+
+    public void addListenerOnAddButton() {
+
+        addButton = (ImageButton) findViewById(R.id.addButton);
+
+        addButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(MainActivity.this,
+                        "AddButton clicked!", Toast.LENGTH_SHORT).show();
+
+                if(searchBarButton.getVisibility() == View.VISIBLE
+                        || addContactButton.getVisibility() == View.VISIBLE) {
+                    searchBarButton.setVisibility(View.GONE);
+                    addContactButton.setVisibility(View.GONE);
+                }
+                else {
+                    searchBarButton.setVisibility(View.VISIBLE);
+                    addContactButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+        public void addListenerOnSearchBarButton() {
+
+            searchBarButton = (ImageButton) findViewById(R.id.searchBarButton);
+
+            searchBarButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+
+                    Toast.makeText(MainActivity.this,
+                            "SearchBarButton clicked!", Toast.LENGTH_SHORT).show();
+
+                }
+
+            });
+
+        }
+
+        public void addListenerOnAddContactButton() {
+
+            addContactButton = (ImageButton) findViewById(R.id.addContactButton);
+
+            addContactButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+
+                    Toast.makeText(MainActivity.this,
+                            "AddContact clicked!", Toast.LENGTH_SHORT).show();
+
+                }
+
+            });
+
+        }
+
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -196,5 +324,4 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
 }
