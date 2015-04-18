@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.widget.ImageButton;
@@ -45,6 +46,7 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
     GoogleMap googleMap;
+    Marker marker;
 
     //Added for custom buttons
     ImageButton meetUpButton;
@@ -125,15 +127,17 @@ public class MainActivity extends ActionBarActivity
 
         /** Make sure that the map has been initialised **/
         if(null != googleMap){
-            googleMap.addMarker(new MarkerOptions()
+            marker = googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(0, 0))
-                            .title("Title")
-                            .snippet("some extra business information")
+                                    //.title("Title")
+                                    //.snippet("some extra business information")
                             .draggable(true)
 
             );
         }
     }
+
+
 
     public void onSectionAttached(int number) {
         switch (number) {
