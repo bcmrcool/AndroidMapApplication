@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    DrawerLayout mDrawerLayout;
     //private ActionBarDrawerToggle mDrawerToggle;
 
     /**
@@ -67,6 +68,8 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         createMapView();
         addMarker();
@@ -124,8 +127,10 @@ public class MainActivity extends ActionBarActivity
         if(null != googleMap){
             googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(0, 0))
-                            .title("Marker")
+                            .title("Title")
+                            .snippet("some extra business information")
                             .draggable(true)
+
             );
         }
     }
@@ -156,18 +161,13 @@ public class MainActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
 
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            //Toast.makeText(MainActivity.this, "1 Before! MENU clicked!", Toast.LENGTH_SHORT).show();
-
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
-            Toast.makeText(MainActivity.this, "2 after return MENU clicked!    menu: [" + menu + "]", Toast.LENGTH_SHORT).show();
             return true;
         }
-        else
-            Toast.makeText(MainActivity.this, "1 Before! MENU clicked!", Toast.LENGTH_SHORT).show();
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -214,8 +214,7 @@ public class MainActivity extends ActionBarActivity
             @Override
             public void onClick(View arg0) {
 
-                Toast.makeText(MainActivity.this,
-                        "MenuButton clicked!", Toast.LENGTH_SHORT).show();
+                mDrawerLayout.openDrawer(Gravity.LEFT);
 
             }
 
@@ -231,9 +230,6 @@ public class MainActivity extends ActionBarActivity
 
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(MainActivity.this,
-                        "AddButton clicked!", Toast.LENGTH_SHORT).show();
 
                 if(searchBarButton.getVisibility() == View.VISIBLE
                         || addContactButton.getVisibility() == View.VISIBLE) {
@@ -335,4 +331,6 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
+
 }
