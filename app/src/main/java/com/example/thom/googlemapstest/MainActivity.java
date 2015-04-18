@@ -1,6 +1,7 @@
 package com.example.thom.googlemapstest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -274,14 +275,24 @@ public class MainActivity extends ActionBarActivity
                 @Override
                 public void onClick(View arg0) {
 
-                    Toast.makeText(MainActivity.this,
-                            "AddContact clicked!", Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(MainActivity.this, "AddContact clicked!", Toast.LENGTH_SHORT).show();
+                    //Intent showContactView = new Intent(this, Contact.class);
+                    //startActivity(new Intent(getApplicationContext(), Contact.class));
+                    addContactView(arg0);
                 }
 
             });
 
         }
+
+    public void addContactView(View v) {
+
+        Toast.makeText(MainActivity.this, "AddContact view started!", Toast.LENGTH_SHORT).show();
+
+        Intent showContactView = new Intent(this, Contact.class);
+        startActivity(new Intent(getApplicationContext(), Contact.class));
+
+    }
 
 
 
