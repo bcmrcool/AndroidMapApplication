@@ -1,7 +1,9 @@
 package com.example.thom.googlemapstest;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,9 @@ public class MainActivity extends ActionBarActivity
     ImageButton searchBarButton;
     ImageButton addContactButton;
 
+    SearchView searchView;
+    boolean hide = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,13 @@ public class MainActivity extends ActionBarActivity
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-
+        searchView = (SearchView) findViewById(R.id.addressSearchView);
+        Intent intent = getIntent();
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doLocationSearch(query);
+        }
+        searchView.setVisibility(View.GONE);
 
         createMapView();
         addMarker();
@@ -260,10 +272,7 @@ public class MainActivity extends ActionBarActivity
 
                 @Override
                 public void onClick(View arg0) {
-
-                    Toast.makeText(MainActivity.this,
-                            "SearchBarButton clicked!", Toast.LENGTH_SHORT).show();
-
+                    hide(arg0);
                 }
 
             });
@@ -290,12 +299,43 @@ public class MainActivity extends ActionBarActivity
         }
 
     public void addContactView(View v) {
-
-        Toast.makeText(MainActivity.this, "AddContact view started!", Toast.LENGTH_SHORT).show();
-
         Intent showContactView = new Intent(this, Contact.class);
         startActivity(new Intent(getApplicationContext(), Contact.class));
+    }
 
+    public void doLocationSearch(String query) {
+
+    }
+
+    public void hide(View v) {
+        if (hide) {
+            searchView.setVisibility(View.VISIBLE);
+            searchView.setQuery("", false);
+            searchView.clearFocus();
+            createSearchBarBackground();
+            hide = false;
+        }
+        else {
+            searchView.setVisibility(View.GONE);
+            hide = true;
+        }
+    }
+
+    public void createSearchBarBackground() {
+        searchView.setQueryHint("Search for an Address");
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = searchView.findViewById(searchPlateId);
+
+        if (searchPlate!=null) {
+            searchPlate.setBackgroundColor(Color.WHITE);
+            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+
+            if (searchText != null) {
+                searchText.setTextColor(Color.DKGRAY);
+                searchText.setHintTextColor(Color.DKGRAY);
+            }
+        }
     }
 
 
