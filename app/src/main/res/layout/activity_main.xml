@@ -34,14 +34,14 @@
                 android:id="@+id/meetUpButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/meetupbutton"
+                android:src="@drawable/meetupbutton2"
                 android:background="@null"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/menuButton"
-                android:src="@drawable/menubutton"
+                android:src="@drawable/menubutton2"
                 android:background="@null"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/addButton"
-                android:src="@drawable/addbutton"
+                android:src="@drawable/addbutton2"
                 android:background="@null"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
@@ -61,11 +61,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/searchBarButton"
-                android:src="@drawable/searchbaraddress"
+                android:src="@drawable/searchbarbutton2"
                 android:background="@null"
                 android:layout_above="@+id/addButton"
-                android:layout_alignRight="@+id/addButton"
-                android:layout_alignEnd="@+id/addButton" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                 android:layout_above="@+id/searchBarButton"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/addcontact"
+                android:src="@drawable/addcontactbutton2"
                 android:background="@null" />
 
             <SearchView

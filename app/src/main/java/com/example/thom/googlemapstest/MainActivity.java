@@ -21,18 +21,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.widget.ImageButton;
 import android.view.View.OnClickListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.google.android.gms.maps.GoogleMap;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -42,7 +50,9 @@ public class MainActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     DrawerLayout mDrawerLayout;
-    //private ActionBarDrawerToggle mDrawerToggle;
+
+    private ArrayList<customMarker> customMarkersArray = new ArrayList<customMarker>();
+    private HashMap<Marker, customMarker> markersHashMap;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -89,8 +99,19 @@ public class MainActivity extends ActionBarActivity
         }
         searchView.setVisibility(View.GONE);
 
+        markersHashMap = new HashMap<Marker, customMarker>();
+
+
+        //customMarkersArray.add(new customMarker("Name", "rating",
+        //        "photo", "Blurb", "Category", 0.0, 0.0));
+
+        customMarkersArray.add(new customMarker("The Coffee Spot", "fourandahalf2",
+                "cafe", "French cafe that serves specialty drinks",
+                "Cafes, Coffee", 0.0, 0.0));
+
         createMapView();
-        addMarker();
+        //addMarker();
+        plotMarkers(customMarkersArray);
 
         //Added for custom buttons
         addListenerOnMeetUpButton();
@@ -131,6 +152,15 @@ public class MainActivity extends ActionBarActivity
                     Toast.makeText(getApplicationContext(),
                             "Error creating map", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+                            marker.showInfoWindow();
+                            return true;
+                        }
+                    });
+                }
             }
         } catch (NullPointerException exception){
             Log.e("mapApp", exception.toString());
@@ -139,21 +169,48 @@ public class MainActivity extends ActionBarActivity
     /**
      * Adds a marker to the map
      */
-    private void addMarker(){
-
+    private void addMarker() {
         /** Make sure that the map has been initialised **/
-        if(null != googleMap){
+        if(null != googleMap)
+        {
             marker = googleMap.addMarker(new MarkerOptions()
                             .position(new LatLng(0, 0))
-                                    //.title("Title")
-                                    //.snippet("some extra business information")
-                            .draggable(true)
-
+                    //.title("Title")
+                    //.snippet("some extra business information")
+                    //.draggable(true)
             );
+
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    return false;
+                }
+            });
         }
     }
 
+    private void plotMarkers(ArrayList<customMarker> markers) {
+        if (markers.size() > 0) {
+            for (customMarker myCustomMarker : markers) {
+                MarkerOptions markerOption = new MarkerOptions()
+                        .position(new LatLng(myCustomMarker.getLat(), myCustomMarker.getLng()));
+                markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.currentlocation_icon));
 
+                Marker currentMarker = googleMap.addMarker(markerOption);
+                markersHashMap.put(currentMarker, myCustomMarker);
+
+                googleMap.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
+            }
+        }
+    }
+
+    private int manageMarkerPhoto(String photoName) {
+        return R.drawable.cafe;
+    }
+
+    private int manageMarkerRating(String ratingName) {
+        return R.drawable.fourandahalf2;
+    }
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -291,6 +348,7 @@ public class MainActivity extends ActionBarActivity
                     //Toast.makeText(MainActivity.this, "AddContact clicked!", Toast.LENGTH_SHORT).show();
                     //Intent showContactView = new Intent(this, Contact.class);
                     //startActivity(new Intent(getApplicationContext(), Contact.class));
+
                     addContactView(arg0);
                 }
 
@@ -337,6 +395,56 @@ public class MainActivity extends ActionBarActivity
             }
         }
     }
+
+
+
+
+    public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter
+    {
+        public MarkerInfoWindowAdapter()
+        {
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker)
+        {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker)
+        {
+
+
+            View v  = getLayoutInflater().inflate(R.layout.infowindow_layout, null);
+
+            customMarker myCustomMarker = markersHashMap.get(marker);
+
+            TextView markerName = (TextView)v.findViewById(R.id.marker_name);
+
+            ImageView markerRating = (ImageView) v.findViewById(R.id.marker_rating);
+
+            ImageView markerPhoto = (ImageView) v.findViewById(R.id.marker_photo);
+
+            TextView markerCategory = (TextView)v.findViewById(R.id.marker_category);
+
+            TextView markerBlurb = (TextView)v.findViewById(R.id.marker_blurb);
+
+            //TextView anotherLabel = (TextView)v.findViewById(R.id.another_label);
+
+            markerRating.setImageResource(manageMarkerRating(myCustomMarker.getRating()));
+            markerPhoto.setImageResource(manageMarkerPhoto(myCustomMarker.getPhoto()));
+
+            markerName.setText(myCustomMarker.getName());
+            markerBlurb.setText(myCustomMarker.getBlurb());
+            markerCategory.setText(myCustomMarker.getCategory());
+            //anotherLabel.setText("A custom text");
+
+            return v;
+        }
+    }
+
+
 
 
 
