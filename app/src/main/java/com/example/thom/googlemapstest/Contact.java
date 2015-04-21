@@ -58,5 +58,5 @@ public class Contact extends ActionBarActivity {
         }
         return super.onOptionsItemsSelected(item);
     }
-    */
+*/
 }
