@@ -124,11 +124,27 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
+        Fragment fragment = null;
+
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                fragment = new yelpListFragment();
+                break;
+        }
+
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+
     }
 
     /**
@@ -222,6 +238,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_section3);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+
+                //Toast.makeText(MainActivity.this, "Yelp List clicked!", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -325,6 +346,8 @@ public class MainActivity extends ActionBarActivity
 
             searchBarButton = (ImageButton) findViewById(R.id.searchBarButton);
 
+            searchBarButton.setVisibility(View.GONE);
+
             searchBarButton.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -339,6 +362,8 @@ public class MainActivity extends ActionBarActivity
         public void addListenerOnAddContactButton() {
 
             addContactButton = (ImageButton) findViewById(R.id.addContactButton);
+
+            addContactButton.setVisibility(View.GONE);
 
             addContactButton.setOnClickListener(new OnClickListener() {
 

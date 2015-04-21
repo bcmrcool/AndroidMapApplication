@@ -42,7 +42,6 @@ public class Contact extends ActionBarActivity {
         contacts.add("Nicole Cohen");
         contacts.add("Walt Junior");
         contacts.add("Zelda Fitz");
-
     }
 /*
     @Override

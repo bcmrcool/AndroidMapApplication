@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Google Maps Test</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">FiftyFifty</string>
+    <string name="title_activity_maps">FiftyFifty</string>
     <string name="title_activity_side_menu">Settings</string>
 
     <string name="title_section1">Refresh Location</string>
     <string name="title_section2">Max Radius</string>
     <string name="title_section3">Yelp Categories</string>
+    <string name="title_section4">Yelp List</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
